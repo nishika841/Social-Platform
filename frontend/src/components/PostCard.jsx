@@ -210,7 +210,7 @@ const PostCard = ({ post, currentUser, onPostUpdated }) => {
           }}
         >
           <img
-            src={`http://localhost:5000${post.imageContent}`}
+            src={`${import.meta.env.VITE_API_URL?.replace('/api', '') || 'http://localhost:5000'}${post.imageContent}`}
             alt="Post Content"
             style={{ width: '100%', maxHeight: '350px', objectFit: 'cover' }}
             onError={(e) => {
