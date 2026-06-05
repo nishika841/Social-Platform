@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const dns = require('dns');
 
 const connectDB = async () => {
-  const isServerless = !!(process.env.VERCEL || process.env.NETLIFY);
+  const isServerless = !!(process.env.VERCEL || process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT);
 
   if (isServerless && !process.env.MONGO_URI) {
     console.warn('MONGO_URI is missing in serverless environment. Skipping database connection.');

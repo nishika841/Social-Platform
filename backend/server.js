@@ -24,7 +24,8 @@ app.use(async (req, res, next) => {
 });
 
 // Serve Static Files (Image uploads)
-const uploadDir = (process.env.NETLIFY || process.env.VERCEL)
+const isServerless = !!(process.env.VERCEL || process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT);
+const uploadDir = isServerless
   ? '/tmp/uploads'
   : path.join(__dirname, 'public/uploads');
 app.use('/uploads', express.static(uploadDir));
@@ -66,7 +67,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-if (!process.env.NETLIFY && !process.env.VERCEL) {
+if (!(process.env.VERCEL || process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT)) {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);

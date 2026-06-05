@@ -12,7 +12,8 @@ const {
 } = require('../controllers/postController');
 
 // Ensure upload directory exists
-const uploadDir = (process.env.NETLIFY || process.env.VERCEL)
+const isServerless = !!(process.env.VERCEL || process.env.NETLIFY || process.env.LAMBDA_TASK_ROOT);
+const uploadDir = isServerless
   ? '/tmp/uploads'
   : path.join(__dirname, '../public/uploads');
 
