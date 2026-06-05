@@ -43,9 +43,12 @@ export const AuthProvider = ({ children }) => {
       api.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
       return { success: true };
     } catch (error) {
+      const errMsg = error.response?.data?.error 
+        ? `${error.response.data.message}: ${error.response.data.error}`
+        : (error.response?.data?.message || 'Login failed. Please check your credentials.');
       return {
         success: false,
-        message: error.response?.data?.message || 'Login failed. Please check your credentials.',
+        message: errMsg,
       };
     }
   };
@@ -65,9 +68,12 @@ export const AuthProvider = ({ children }) => {
       api.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
       return { success: true };
     } catch (error) {
+      const errMsg = error.response?.data?.error 
+        ? `${error.response.data.message}: ${error.response.data.error}`
+        : (error.response?.data?.message || 'Signup failed. Please try again.');
       return {
         success: false,
-        message: error.response?.data?.message || 'Signup failed. Please try again.',
+        message: errMsg,
       };
     }
   };
