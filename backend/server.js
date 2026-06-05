@@ -17,7 +17,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Serve Static Files (Image uploads)
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+const uploadDir = (process.env.NETLIFY || process.env.VERCEL)
+  ? '/tmp/uploads'
+  : path.join(__dirname, 'public/uploads');
+app.use('/uploads', express.static(uploadDir));
+
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -55,11 +59,12 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
-});
+if (!process.env.NETLIFY && !process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+  });
+}
 
 module.exports = app;
 

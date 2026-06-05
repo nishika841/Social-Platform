@@ -96,3 +96,22 @@ A full-stack social feed web application replicating the look, feel, and functio
 4. Expand the **Environment Variables** section and add:
    * `VITE_API_URL`: `https://social-platform-backend.onrender.com/api` (replace with your active Render backend API endpoint)
 5. Click **Deploy**.
+
+### 4. Deploying Both Frontend & Backend on Netlify (Serverless)
+We have set up the project using **npm workspaces** and **Netlify Functions** so both the React frontend and the Express backend can be hosted on a single Netlify site:
+
+1. **Prerequisite**: In MongoDB Atlas, go to **Network Access** and ensure your IP Whitelist allows access from anywhere (`0.0.0.0/0`), as Netlify Functions run on dynamic IPs.
+2. Go to [Netlify.com](https://www.netlify.com) and log in.
+3. Click **Add new site** -> **Import an existing project** and connect to your GitHub repository.
+4. Select the `Social-Platform` repository.
+5. Netlify will automatically read the root-level [`netlify.toml`](./netlify.toml) file and configure the settings:
+   * **Build command**: `npm run build`
+   * **Publish directory**: `frontend/dist`
+   * **Functions directory**: `netlify/functions`
+6. Under **Site configuration** -> **Environment variables**, add the following:
+   * `MONGO_URI`: `your_mongodb_atlas_connection_string`
+   * `JWT_SECRET`: `your_jwt_signing_secret`
+   * `NODE_ENV`: `production`
+7. Click **Deploy [Your Repository Name]**. Netlify will build the frontend and package the Express backend as a serverless function automatically!
+
+

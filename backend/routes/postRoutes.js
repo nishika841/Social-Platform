@@ -12,7 +12,10 @@ const {
 } = require('../controllers/postController');
 
 // Ensure upload directory exists
-const uploadDir = path.join(__dirname, '../public/uploads');
+const uploadDir = (process.env.NETLIFY || process.env.VERCEL)
+  ? '/tmp/uploads'
+  : path.join(__dirname, '../public/uploads');
+
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
