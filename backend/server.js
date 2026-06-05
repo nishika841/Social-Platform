@@ -23,6 +23,24 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 
+const mongoose = require('mongoose');
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    database: {
+      connected: mongoose.connection.readyState === 1,
+      state: mongoose.connection.readyState, // 0 = disconnected, 1 = connected, 2 = connecting
+      uriDefined: !!process.env.MONGO_URI,
+    },
+    env: {
+      nodeEnv: process.env.NODE_ENV,
+      vercel: process.env.VERCEL,
+    }
+  });
+});
+
 // Root endpoint status check
 app.get('/', (req, res) => {
   res.status(200).json({ status: 'API is running successfully' });

@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 const dns = require('dns');
 
 const connectDB = async () => {
+  if (process.env.VERCEL && !process.env.MONGO_URI) {
+    console.warn('MONGO_URI is missing on Vercel. Skipping database connection.');
+    return;
+  }
+
   try {
     // Only set custom DNS locally (bypasses Vercel network DNS restriction)
     if (!process.env.VERCEL) {
