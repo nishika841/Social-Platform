@@ -3,7 +3,7 @@
   publish = "frontend/dist"
 
 [build.environment]
-  NODE_ENV = "development"
+  NPM_FLAGS = "--include=dev"
 
 [functions]
   directory = "netlify/functions"
