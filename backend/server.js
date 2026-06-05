@@ -6,15 +6,22 @@ const connectDB = require('./config/db.js');
 const authRoutes = require('./routes/authRoutes');
 const postRoutes = require('./routes/postRoutes');
 
-// Connect Database
-connectDB();
-
 const app = express();
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Database connection middleware (connects lazily and handles connection errors cleanly in serverless)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 
 // Serve Static Files (Image uploads)
 const uploadDir = (process.env.NETLIFY || process.env.VERCEL)
