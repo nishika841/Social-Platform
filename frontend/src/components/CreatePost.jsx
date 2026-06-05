@@ -146,9 +146,11 @@ const CreatePost = ({ onPostCreated, user }) => {
           placeholder="What's on your mind?"
           value={textContent}
           onChange={(e) => setTextContent(e.target.value)}
-          InputProps={{
-            disableUnderline: true,
-            style: { fontSize: '15px' },
+          slotProps={{
+            input: {
+              disableUnderline: true,
+              style: { fontSize: '15px' },
+            },
           }}
         />
       </Box>

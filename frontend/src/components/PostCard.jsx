@@ -304,12 +304,14 @@ const PostCard = ({ post, currentUser, onPostUpdated }) => {
                 placeholder="Write a comment..."
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                InputProps={{
-                  sx: {
-                    borderRadius: '20px',
-                    backgroundColor: '#F0F2F5',
-                    fontSize: '13px',
-                    '& fieldset': { border: 'none' },
+                slotProps={{
+                  input: {
+                    sx: {
+                      borderRadius: '20px',
+                      backgroundColor: '#F0F2F5',
+                      fontSize: '13px',
+                      '& fieldset': { border: 'none' },
+                    },
                   },
                 }}
               />
