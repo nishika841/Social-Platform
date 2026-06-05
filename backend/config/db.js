@@ -27,6 +27,7 @@ const connectDB = async () => {
     const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/social-platform', {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000, // Fail fast after 5s to avoid Netlify function timeouts
     });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
